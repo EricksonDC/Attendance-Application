@@ -1,0 +1,29 @@
+name: PR Git Diff Report
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  diff-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # required for proper diff
+
+      - name: Generate git diff report
+        run: |
+          echo "Generating git diff report..."
+          git diff origin/${{ github.base_ref }}...origin/${{ github.head_ref }} > diff-report.txt
+
+      - name: Upload diff report as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: git-diff-report
+          path: diff-report.txt

@@ -23,7 +23,7 @@ const FormValue({
 }
 
 class _FormValueState extends State<FormValue> {
-  Future<void> getEventId() async{ //change from string to void
+  Future<string> getEventId() async{ //change from string to void
   SharedPreferences pref = await SharedPreferences.getInstance();
   return pref.getString('event_id') ?? '';
   }
